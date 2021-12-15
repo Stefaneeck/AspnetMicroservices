@@ -22,6 +22,7 @@ namespace Catalog.API.Data
 
             //populate products
             Products = database.GetCollection<Product>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
+            CatalogContextSeed.SeedData(Products);
 
             //seed data
             //CatalogContextSeed.SeedData(Products);

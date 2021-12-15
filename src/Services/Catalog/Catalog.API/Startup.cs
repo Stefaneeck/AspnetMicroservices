@@ -29,6 +29,8 @@ namespace Catalog.API
         {
 
             services.AddControllers();
+
+            //generate swagger doc from our api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" });
