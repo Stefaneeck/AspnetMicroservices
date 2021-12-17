@@ -1,8 +1,25 @@
 version: '3.4'
 
 services:
+  catalogdb:
+    container_name: catalogdb
+    #if there is a problem when running the container, it will restart.
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db 
+
+  #aspnetcore web api image
   catalog.api:
+    container_name: catalog.api
+    #important because when we are running in the docker environment and we need to override the application settings
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      #not using localhost but catalogdb instead, because when we are running in the docker env, docker only knows the container names.
+      - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
+    depends_on:
+      - catalogdb
     ports:
-      - "80"
+    #forwarding local computers port 8000
+      - "8000:80"

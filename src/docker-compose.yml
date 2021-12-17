@@ -1,8 +1,15 @@
 version: '3.4'
 
 services:
+  catalogdb:
+    image: mongo
+
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
+
+#volumes are data storage outside of the containers that exist on the host file system
+volumes:
+  mongo_data:
