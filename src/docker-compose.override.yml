@@ -8,7 +8,24 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db 
+      - mongo_data:/data/db
+
+  basketdb:
+    container_name: basketdb
+    restart: always
+    ports:
+      - "6379:6379"
+
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+    #8080 because we are already using port 8000 for the catalog api
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
 
   #aspnetcore web api image
   catalog.api:
