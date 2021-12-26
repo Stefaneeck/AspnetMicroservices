@@ -1,3 +1,4 @@
+using Discount.API.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,7 +14,16 @@ namespace Discount.API
     {
         public static void Main(string[] args)
         {
+            //get the host object
+            var host = CreateHostBuilder(args).Build();
+            //call our MigrateDatabase extension method
+            host.MigrateDatabase<Program>();
+            //start the application
+            host.Run();
+
+            /* above code replaces and extends this code
             CreateHostBuilder(args).Build().Run();
+            */
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
