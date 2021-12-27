@@ -1,3 +1,4 @@
+using Discount.Grpc.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -12,7 +13,16 @@ namespace Discount.Grpc
     {
         public static void Main(string[] args)
         {
+            //get the host object
+            var host = CreateHostBuilder(args).Build();
+            //call our MigrateDatabase extension method
+            host.MigrateDatabase<Program>();
+            //start the application
+            host.Run();
+
+            /* above code replaces and extends this code
             CreateHostBuilder(args).Build().Run();
+            */
         }
 
         // Additional configuration is required to successfully run gRPC on macOS.
