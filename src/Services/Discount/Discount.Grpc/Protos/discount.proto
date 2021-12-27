@@ -1,0 +1,45 @@
+//this file will be converted to c# classes
+syntax = "proto3";
+
+//optional, tells  protobuff compiler to generate classes within the specified namespace
+option csharp_namespace = "Discount.Grpc.Protos";
+
+service DiscountProtoService{
+	//GetDiscount = name of grpc service
+	//GetDisountRequest is input parameter
+	rpc GetDiscount(GetDiscountRequest) returns (CouponModel);
+	rpc CreateDiscount (CreateDiscountRequest) returns (CouponModel);
+	rpc UpdateDiscount (UpdateDiscountRequest) returns (CouponModel);
+	rpc DeleteDiscount (DeleteDiscountRequest) returns (DeleteDiscountResponse);
+}
+
+message GetDiscountRequest{
+//definition of type
+//this is +- like a c# class
+//numbers like '= 1' is for order
+
+	string productName = 1;
+}
+
+message CouponModel{
+	int32 id = 1;
+	string productName = 2;
+	string description = 3;
+	int32 amount = 4;
+}
+
+message CreateDiscountRequest{
+	CouponModel coupon = 1;
+}
+
+message UpdateDiscountRequest{
+	CouponModel coupon = 1;
+}
+
+message DeleteDiscountRequest{
+	string productName = 1;
+}
+
+message DeleteDiscountResponse{
+	bool success = 1;
+}
