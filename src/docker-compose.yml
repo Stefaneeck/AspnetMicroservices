@@ -34,11 +34,18 @@ services:
       context: .
       dockerfile: Services/Discount/Discount.API/Dockerfile
 
+  discount.grpc:
+    image: ${DOCKER_REGISTRY-}discountgrpc
+    build:
+      context: .
+      dockerfile: Services/Discount/Discount.Grpc/Dockerfile
+
 volumes:
-#volumes are data storage outside of the containers that exist on the host file system
+#volumes are data storage outside of the containers that exist on the host filesystem
   mongo_data:
   portainer_data:
   postgres_data:
   pgadmin_data:
+
 
 
