@@ -1,4 +1,5 @@
 ﻿using Basket.API.Entities;
+using Basket.API.GrpcServices;
 using Basket.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,10 +15,12 @@ namespace Basket.API.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _repository;
+        private readonly DiscountGrpcService _discountGrpcService;
 
-        public BasketController(IBasketRepository repository)
+        public BasketController(IBasketRepository repository, DiscountGrpcService discountGrpcService)
         {
             _repository = repository;
+            _discountGrpcService = discountGrpcService;
         }
 
         [HttpGet("{userName}", Name = "GetBasket")]
@@ -35,6 +38,17 @@ namespace Basket.API.Controllers
         [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ShoppingCart>> UpdateBasket([FromBody] ShoppingCart basket)
         {
+            //consume discount grpc method (from discount.grpc) basket api will be the client of the grpc in this case
+            //it's not best practice do directly communicate with the generated classes. We create a new class to encapsulate.
+            foreach(var item in basket.Items)
+            {
+                //for every item of the basket we have an inter-service communication, because of this performance is important (postgres + dapper will help here).
+                var coupon = await _discountGrpcService.GetDiscount(item.ProductName);
+
+                //calculate new price
+                item.Price -= coupon.Amount;
+            }
+
             //action is OK, Result is return type of updatebasket (=Task<ShoppingCart>)
             return Ok(await _repository.UpdateBasket(basket));
         }
