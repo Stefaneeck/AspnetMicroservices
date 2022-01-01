@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ordering.Application.Contracts.Persistence
 {
+    //this interface could handle any orm or db with no effect on the application layer, only in infrastructure layer
     //generic repository pattern
     public interface IAsyncRepository<T> where T : EntityBase
     {
