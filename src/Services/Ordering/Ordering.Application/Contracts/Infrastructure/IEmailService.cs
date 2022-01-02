@@ -7,5 +7,6 @@ namespace Ordering.Application.Contracts.Infrastructure
     {
         //Any email service can be implemented in the infrastructure layer without affecting the application layer
         Task<bool> SendMail(Email email);
+        Task SendEmail(Email email);
     }
 }

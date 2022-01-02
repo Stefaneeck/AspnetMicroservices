@@ -14,7 +14,6 @@ namespace Ordering.Application.Features.Orders.Queries.GetOrdersList
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
-
         public GetOrdersListQueryHandler(IOrderRepository orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
