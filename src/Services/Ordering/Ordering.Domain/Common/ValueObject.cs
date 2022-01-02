@@ -47,4 +47,4 @@ namespace Ordering.Domain.Common
         }
     }
 }
-}
+
