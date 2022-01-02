@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Ordering.Application.Contracts.Persistence;
+using Ordering.Application.Exceptions;
 using Ordering.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,12 +28,12 @@ namespace Ordering.Application.Features.Orders.Commands.UpdateOrder
             var orderToUpdate = await _orderRepository.GetByIdAsync(request.Id);
             if(orderToUpdate == null)
             {
-                //exception
-                _logger.LogError($"Order with id {orderToUpdate.Id} does not exist. ");
+                throw new NotFoundException(nameof(Order), request.Id);
             }
 
             //request = source, orderToUpdate = destination
             //map from request (UpdateOrderCommand to Order) and save into orderToUpdate var
+            //we cant just give the retrieved order as parameter for update, because that are the old values
             _mapper.Map(request, orderToUpdate, typeof(UpdateOrderCommand), typeof(Order));
 
             await _orderRepository.UpdateAsync(orderToUpdate);
