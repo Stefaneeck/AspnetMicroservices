@@ -17,9 +17,11 @@ namespace Ordering.API.Controllers
     [Route("api/v1/[controller]")]
     public class OrderController : ControllerBase
     {
-        //We create mediator cqrs objects and send these requests to the mediator.
-        //Behind this action, mediator creates a pipeline for the request and triggers the handler method
-        //no infrastructure dependencies, presentation layer is only responsible for exposing API
+        /*
+         * We create mediator cqrs objects and send these requests to the mediator.
+         * Behind this action, mediator creates a pipeline for the request and triggers the handler method
+         * no infrastructure dependencies, presentation layer is only responsible for exposing API
+        */
 
         //for all operations only 1 object to inject
         //mediator is not referenced directly in our project file, but we have a project reference to Ordering.Application, which has the MediatR reference.
