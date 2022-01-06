@@ -11,9 +11,5 @@ namespace Ordering.Application.Features.Orders.Commands.CheckoutOrder.DeleteOrde
     {
         public int Id { get; set; }
 
-        public DeleteOrderCommand(int id)
-        {
-            Id = id;
-        }
     }
 }
