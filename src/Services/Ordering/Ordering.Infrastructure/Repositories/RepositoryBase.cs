@@ -17,7 +17,7 @@ namespace Ordering.Infrastructure.Repositories
         protected readonly OrderContext _dbContext;
 
         //common operations of the repository in this class
-        //create a repository object to wrap EF core object, this way somewhere in the future you can change EF Core with NHibernate for instance.
+        //create a repository object to wrap EF core object, this way somewhere in the future you can change EF Core with NHibernate for instance. You can change ORM by only changing the repository in the infrastructure layer
         public RepositoryBase(OrderContext dbContext)
         {
             _dbContext = dbContext;

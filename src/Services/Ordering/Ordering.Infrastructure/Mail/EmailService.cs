@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ordering.Infrastructure.Mail
 {
+    //You can change to any other email provider in the future by only changing the infrastructure layer
     public class EmailService : IEmailService
     {
         //We are getting the email settings from the appsettings file
