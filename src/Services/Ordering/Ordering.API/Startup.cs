@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Ordering.Application;
+using Ordering.Infrastructure;
 
 namespace Ordering.API
 {
@@ -21,8 +23,10 @@ namespace Ordering.API
         {
             //extension methods
             //it's good practice to handle every dependency in their own layer
-            //services.AddApplicationServices();
-            //services.AddInfrastructureServices();
+            //this extension method is defined in the application layer
+            services.AddApplicationServices();
+            //this extension method is defined in the infrastructure layer
+            services.AddInfrastructureServices(Configuration);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
