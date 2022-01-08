@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   catalogdb:
+    #mongo image is attached to catalogdb container, which images are attached to which container names can be specified in the docker-compose.yml file
     container_name: catalogdb
     #if there is a problem when running the container, it will restart.
     restart: always
@@ -29,6 +30,15 @@ services:
     volumes:
     #info can also be found on postgres docker hub page
       - postgres_data:/var/lib/postgresql/data/
+
+  orderdb:
+    container_name: orderdb
+    environment:
+        SA_PASSWORD: "SwN12345678"
+        ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+        - "1433:1433"
 
   pgadmin:
     container_name: pgadmin
@@ -73,7 +83,7 @@ services:
       #override for basket api's local appsetting.json file setting (connectionstring was localhost:6379 instead on local environment)
       - "CacheSettings:ConnectionString=basketdb:6379"
       #override for basket api's local appsettings.json file setting (where we have http://localhost:5003 instead of discount.grpc )
-      #needed to add http:/ because without the http it cannot be understood by docker (we need to explicitly declare we are using the http protocol, and that discount grpc will be consume using this protocol)
+      #needed to add http:// because without the http it cannot be understood by docker (we need to explicitly declare we are using the http protocol, and that discount grpc will be consume using this protocol)
       - "GrpcSettings:DiscountUrl=http://discount.grpc"
     depends_on:
       - basketdb
@@ -101,4 +111,16 @@ services:
       - discountdb
     ports:
       - "8003:80"
+
+
+  ordering.api:
+    container_name: ordering.api
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        #override appsettings.json connectionstring (orderdb instead of localhost because it is our sql db container name)
+        - "ConnectionStrings:OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=SwN12345678"        
+    depends_on:
+        - orderdb
+    ports:
+        - "8004:80"
 
