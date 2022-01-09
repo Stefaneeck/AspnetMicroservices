@@ -1,18 +1,14 @@
 using Basket.API.GrpcServices;
 using Basket.API.Repositories;
 using Discount.Grpc.Protos;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Basket.API
 {
@@ -28,21 +24,37 @@ namespace Basket.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //add redis
+            //redis configuration
             services.AddStackExchangeRedisCache(options =>
             {
                 //get cachesettings -> connectionstring from appsettings.json
                 options.Configuration = Configuration.GetValue<string>("CacheSettings:ConnectionString");
             });
 
+            //general configuration
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddAutoMapper(typeof(Startup));
 
+            //grpc configuration
             //register the generated grpc client (we need the address of the discount grpc), this is the address of the using when making the grpc calls
             //the address has been set in the appsettings.json file rather than entering as string here
             services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options => options.Address = new Uri(Configuration["GrpcSettings:DiscountUrl"]));
 
             //register for DI
             services.AddScoped<DiscountGrpcService>();
+
+            //MassTransit-RabbitMQ configuration, configure masstransit to connect with rabbitmq
+            //config is an action object
+            services.AddMassTransit(config => {
+                //UsingRabbitMq needs an action object as well
+                config.UsingRabbitMq((ctx, cfg) => {
+                    //docker evironment is exposing this port into local, rabbitmq is running on local
+                    //for details check rabbitmq.com/dotnet-api.guide.html
+                    //from appsettings.json
+                    cfg.Host(Configuration["EventBusSettings:HostAddress"]);
+                });
+            });
+            services.AddMassTransitHostedService();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
