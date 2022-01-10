@@ -33,6 +33,8 @@ namespace Basket.API
 
             //general configuration
             services.AddScoped<IBasketRepository, BasketRepository>();
+            //Search automapper classes in the given assembly
+            //services.AddAutoMapper(typeof(ProfileTypeFromAssembly1), typeof(ProfileTypeFromAssembly2));
             services.AddAutoMapper(typeof(Startup));
 
             //grpc configuration
@@ -43,10 +45,13 @@ namespace Basket.API
             //register for DI
             services.AddScoped<DiscountGrpcService>();
 
-            //MassTransit-RabbitMQ configuration, configure masstransit to connect with rabbitmq
+            //MassTransit configuration, configure masstransit to connect with rabbitmq
             //config is an action object
             services.AddMassTransit(config => {
                 //UsingRabbitMq needs an action object as well
+                //this code means that MassTransit will use rabbitmq as message broker system
+
+                //rabbitmq configuration
                 config.UsingRabbitMq((ctx, cfg) => {
                     //docker evironment is exposing this port into local, rabbitmq is running on local
                     //for details check rabbitmq.com/dotnet-api.guide.html

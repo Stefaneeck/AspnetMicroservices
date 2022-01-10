@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Discount.API.Controllers
 {
+    //Discount.API is not used, it's just made to show what is possible. We use Discount GRPC.
     [ApiController]
     [Route("api/v1/[controller]")]
     public class DiscountController : ControllerBase

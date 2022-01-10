@@ -5,9 +5,6 @@ using Basket.API.Repositories;
 using EventBus.Messages.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -95,8 +92,10 @@ namespace Basket.API.Controllers
             //not using a basketcheckoutevent in the frombody (would save one mapping), but this event belongs to rabbitmq operations and not api methods.
             //send basketcheckoutevent to rabbitmq
             var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+
             eventMessage.TotalPrice = basket.TotalPrice;
-            //await _publishEndpoint.Publish<BasketCheckoutEvent>(eventMessage);
+            //publish message to all subscribed consumers
+            await _publishEndpoint.Publish<BasketCheckoutEvent>(eventMessage);
 
             //remove the basket in the redis db in order to create a new fresh sales operation.
             await _repository.DeleteBasket(basket.UserName);
