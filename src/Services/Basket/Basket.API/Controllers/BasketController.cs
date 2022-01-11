@@ -95,6 +95,7 @@ namespace Basket.API.Controllers
 
             eventMessage.TotalPrice = basket.TotalPrice;
             //publish message to all subscribed consumers
+            //this will trigger BasketCheckoutConsumer (Ordering.API)
             await _publishEndpoint.Publish<BasketCheckoutEvent>(eventMessage);
 
             //remove the basket in the redis db in order to create a new fresh sales operation.
