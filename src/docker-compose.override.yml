@@ -93,8 +93,11 @@ services:
       #override for basket api's local appsettings.json file setting (where we have http://localhost:5003 instead of discount.grpc )
       #needed to add http:// because without the http it cannot be understood by docker (we need to explicitly declare we are using the http protocol, and that discount grpc will be consume using this protocol)
       - "GrpcSettings:DiscountUrl=http://discount.grpc"
+      #guest@rabbitmq (guest@containername) instead of guest@localhost
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - basketdb
+      - rabbitmq
     #8 prefix for docker env, 5 prefix for dev env
     ports:
       - "8001:80"
@@ -126,9 +129,11 @@ services:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
         #override appsettings.json connectionstring (orderdb instead of localhost because it is our sql db container name)
-        - "ConnectionStrings:OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=SwN12345678"        
+        - "ConnectionStrings:OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=SwN12345678"
+        - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
         - orderdb
+        - rabbitmq
     ports:
         - "8004:80"
 

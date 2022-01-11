@@ -4,10 +4,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-#copy from the local files and paste into the image
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["Services/Basket/Basket.API/Basket.API.csproj", "Services/Basket/Basket.API/"]
+COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/EventBus.Messages/"]
 RUN dotnet restore "Services/Basket/Basket.API/Basket.API.csproj"
 COPY . .
 WORKDIR "/src/Services/Basket/Basket.API"
@@ -19,6 +19,4 @@ RUN dotnet publish "Basket.API.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-#first command that will be run when the container is up
-#Basket.API.dll will be executed with the dotnet command
 ENTRYPOINT ["dotnet", "Basket.API.dll"]
