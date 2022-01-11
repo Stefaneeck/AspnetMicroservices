@@ -4,33 +4,41 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Ordering.API.Extensions
 {
     public static class HostExtensions
     {
+        //Generic, instead we should write a MigrateDatabase method for each DbContext
         public static IHost MigrateDatabase<TContext>(this IHost host,
                                             Action<TContext, IServiceProvider> seeder,
                                             int? retry = 0) where TContext : DbContext
         {
-            //Value because nullable type
-            int retryForAvailability = retry.Value;
+                //Value because nullable type
+                int retryForAvailability = retry.Value;
 
             //This will provide the logger and the context object
             //we can access these trough the var scope
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+                //type of seeder methods first parameter is TContext
                 var logger = services.GetRequiredService<ILogger<TContext>>();
                 var context = services.GetService<TContext>();
 
                 try
                 {
+                    //without .Name it would return meta-information about TContext.class
                     logger.LogInformation("Migrating database with context {DbContextName}", typeof(TContext).Name);
 
+                    /* The code that is actually executed here comes from Program.cs and is:
+                     * 
+                    {
+                        var logger = services.GetService<ILogger<OrderContextSeed>>();
+                        OrderContextSeed.SeedAsync(context, logger).Wait();
+                    }
+                     * 
+                     */
                     InvokeSeeder(seeder, context, services);
 
                     //if the sql server container is not created on run docker compose this
