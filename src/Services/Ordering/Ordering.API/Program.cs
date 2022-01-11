@@ -22,6 +22,7 @@ namespace Ordering.API
             //so thats way, to provide this context, we have to pass this seeding operation after the migration operation while providing the other context into the host method
             //expects an Action and an int (first parameter IHost can be ignored because it is the extension method 'this' parameter
 
+            //context and services will get concrete values in the MigrateDatabase extension method (in HostExtensions.cs)
             host.MigrateDatabase<OrderContext>((context, services) =>
             {
                 //writing the code this way (with the Action), we can place this code here instead of in the MigrateDatabase Extension method

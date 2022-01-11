@@ -9,13 +9,13 @@ namespace Ordering.API.Extensions
 {
     public static class HostExtensions
     {
-        //Generic, instead we should write a MigrateDatabase method for each DbContext
+        //Generic, should we not do this then we should write a MigrateDatabase method for each DbContext
         public static IHost MigrateDatabase<TContext>(this IHost host,
                                             Action<TContext, IServiceProvider> seeder,
                                             int? retry = 0) where TContext : DbContext
         {
-                //Value because nullable type
-                int retryForAvailability = retry.Value;
+            //Value because nullable type
+            int retryForAvailability = retry.Value;
 
             //This will provide the logger and the context object
             //we can access these trough the var scope
