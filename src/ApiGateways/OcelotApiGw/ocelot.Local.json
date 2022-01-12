@@ -83,50 +83,7 @@
       ],
       "UpstreamPathTemplate": "/Basket/Checkout",
       "UpstreamHttpMethod": [ "POST" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "3s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
-    },
-    //Basket API
-    {
-      "DownstreamPathTemplate": "/api/v1/Basket/{userName}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "8001"
-        }
-      ],
-      "UpstreamPathTemplate": "/Basket/{userName}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/v1/Basket",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "8001"
-        }
-      ],
-      "UpstreamPathTemplate": "/Basket",
-      "UpstreamHttpMethod": [ "POST" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/v1/Basket/Checkout",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "8001"
-        }
-      ],
-      "UpstreamPathTemplate": "/Basket/Checkout",
-      "UpstreamHttpMethod": [ "POST" ],
+      //to limit requests we can use this ocelot option (in this example max 1 request per 3sec)
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,

@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:53943",
+      "applicationUrl": "http://localhost:5010",
       "sslPort": 0
     }
   },
@@ -19,7 +19,6 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        //we have set this to local for ocelot
         "ASPNETCORE_ENVIRONMENT": "Local"
       },
       "dotnetRunMessages": "true",
