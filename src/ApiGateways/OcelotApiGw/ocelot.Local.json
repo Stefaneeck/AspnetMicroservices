@@ -1,0 +1,187 @@
+{
+  "Routes": [
+    //we will use the docker urls with routing operations because we will compose the docker containers in order to run catalog, basket, discount and ordering microservices, but we will debug our ocelot json into our local environment.
+    //that's why we set the environment variable to local.
+
+    //Catalog API
+    {
+      //after this, we should be able to send a get, put or post request to /Catalog and it will act as if we called /api/v1/Catalog?
+      //The DownstreamPathTemplate, DownstreamScheme and DownstreamHostAndPorts define the URL that a request will be forwarded to.
+      //we are redirecting to the docker internal microservices
+      "DownstreamPathTemplate": "/api/v1/Catalog",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8000"
+        }
+      ],
+      //The UpstreamPathTemplate is the URL that Ocelot will use to identify which DownstreamPathTemplate to use for a given request. 
+      //The UpstreamHttpMethod is used so Ocelot can distinguish between requests with different HTTP verbs to the same URL. You can set a specific list of HTTP Methods or set an empty list to allow any of them.
+      "UpstreamPathTemplate": "/Catalog",
+      //if the downstream path is the same, we can use the get, put, post in 1 definition
+      //this will match the different methods in our CatalogController
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Catalog/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8000"
+        }
+      ],
+      "UpstreamPathTemplate": "/Catalog/{id}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Catalog/GetProductByCategory/{category}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8000"
+        }
+      ],
+      "UpstreamPathTemplate": "/Catalog/GetProductByCategory/{category}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //Basket API
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/{userName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/{userName}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/Checkout",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/Checkout",
+      "UpstreamHttpMethod": [ "POST" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "3s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    //Basket API
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/{userName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/{userName}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/Checkout",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/Basket/Checkout",
+      "UpstreamHttpMethod": [ "POST" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "3s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    //Discount API
+    {
+      "DownstreamPathTemplate": "/api/v1/Discount/{productName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8002"
+        }
+      ],
+      "UpstreamPathTemplate": "/Discount/{productName}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Discount",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8002"
+        }
+      ],
+      "UpstreamPathTemplate": "/Discount",
+      "UpstreamHttpMethod": [ "PUT", "POST" ]
+    },
+    //Ordering API
+
+    //only 1 definition because we should not accept orders from the api gateway
+    //client application should not create an order manually. That's why we are only exposing the api's with getting orders for a given username (we are only exposing the method GetOrdersByUsername()).
+    //this way, we can put restrictions for exposing api's. This is one of the good features of using api gateways.
+    //should we later create a new gateway for the SPA front end (for instance an angular front end app), we could create an admin management dashboard and we could set the new ocelot api gateway to only expose these api methods for these specific SPA management pages.
+    {
+      "DownstreamPathTemplate": "/api/v1/Order/{userName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8004"
+        }
+      ],
+      "UpstreamPathTemplate": "/Order/{userName}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }
+  ],
+  "GlobalConfiguration":{
+      //Ocelot needs to know the URL it is running under in order to do Header find & replace and for certain administration configurations.
+      //http://localhost:5010 is our OcelotApiGw project
+      "BaseUrl": "http://localhost:5010"
+  }
+}

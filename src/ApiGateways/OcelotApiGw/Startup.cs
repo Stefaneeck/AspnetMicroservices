@@ -39,8 +39,8 @@ namespace OcelotApiGw
                 });
             });
 
-            //middleware pipeline that can configure when any request comes to asp.net 
-            //middleware will check for the custom json configurations and routing these requests to the intended requests.
+            //middleware pipeline in order to perform routing operations
+            //middleware will check for the custom json configurations and will route requests.
             await app.UseOcelot();
         }
     }

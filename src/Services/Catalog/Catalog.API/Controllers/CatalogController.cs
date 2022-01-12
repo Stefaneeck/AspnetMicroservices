@@ -104,14 +104,5 @@ namespace Catalog.API.Controllers
         {
             return Ok(await _repository.DeleteProduct(id));
         }
-
-        /*
-        [HttpGet]
-        public async Task<IEnumerable<Product>> GetProducts()
-        {
-            var products = await _repository.GetProducts();
-            return products;
-        }
-        */
     }
 }
