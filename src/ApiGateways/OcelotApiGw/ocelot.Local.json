@@ -5,7 +5,7 @@
 
     //Catalog API
     {
-      //after this, we should be able to send a get, put or post request to /Catalog and it will act as if we called /api/v1/Catalog?
+      //after this, we should be able to send a get, put or post request to localhost:5010/Catalog and it will act as if we called /api/v1/Catalog from catalog docker environment microservice
       //The DownstreamPathTemplate, DownstreamScheme and DownstreamHostAndPorts define the URL that a request will be forwarded to.
       //we are redirecting to the docker internal microservices
       "DownstreamPathTemplate": "/api/v1/Catalog",
@@ -21,7 +21,12 @@
       "UpstreamPathTemplate": "/Catalog",
       //if the downstream path is the same, we can use the get, put, post in 1 definition
       //this will match the different methods in our CatalogController
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      //this is using ocelot cache option, this means that if we send another request in this 15 seconds
+      //that the internal microservice will not be consumed, but that the cached version will be showed
+      "FileCacheOptions": {
+        "TtlSeconds": 15
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/{id}",

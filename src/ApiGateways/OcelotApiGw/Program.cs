@@ -32,7 +32,7 @@ namespace OcelotApiGw
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-                //custom logging settings
+                //custom logging settings to show the ocelot logs in the console
                 .ConfigureLogging((hostingContext, loggingBuilder) =>
                 {
                     //this is an action, the code will be executed somewhere in the extension method (ConfigureLogging)
@@ -40,7 +40,7 @@ namespace OcelotApiGw
 
                     //check for the logging configuration under the appsettings.json
                     loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    //this way, we can write logs from the console and debug window and easily track ocelot logs. 
+                    //this way, we can read logs from the console and debug window to easily track ocelot logs. 
                     loggingBuilder.AddConsole();
                     loggingBuilder.AddDebug();
 

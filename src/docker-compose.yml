@@ -52,12 +52,19 @@ services:
       context: .
       dockerfile: Services/Ordering/Ordering.API/Dockerfile
 
+  ocelotapigw:
+    image: ${DOCKER_REGISTRY-}ocelotapigw
+    build:
+      context: .
+      dockerfile: ApiGateways/OcelotApiGw/Dockerfile
+
 volumes:
 #volumes are data storage outside of the containers that exist on the host filesystem
   mongo_data:
   portainer_data:
   postgres_data:
   pgadmin_data:
+
 
 
 
