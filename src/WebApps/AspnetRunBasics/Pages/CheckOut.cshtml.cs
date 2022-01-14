@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AspnetRunBasics.Models;
 using AspnetRunBasics.Repositories;
+using AspnetRunBasics.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,42 +10,49 @@ namespace AspnetRunBasics
 {
     public class CheckOutModel : PageModel
     {
-        private readonly ICartRepository _cartRepository;
-        private readonly IOrderRepository _orderRepository;
+        private readonly IBasketService _basketService;
+        private readonly IOrderService _orderService;
 
-        public CheckOutModel(ICartRepository cartRepository, IOrderRepository orderRepository)
+        public CheckOutModel(IBasketService basketService, IOrderService orderService)
         {
-            _cartRepository = cartRepository ?? throw new ArgumentNullException(nameof(cartRepository));
-            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
+            _basketService = basketService;
+            _orderService = orderService;
         }
 
         [BindProperty]
-        public Entities.Order Order { get; set; }
+        //we are going to checkout the order into our checkout page (more appropriate to use BasketCheckoutModel here then OrderResponseModel)
+        public BasketCheckoutModel Order { get; set; }
 
-        public Entities.Cart Cart { get; set; } = new Entities.Cart();
+        public BasketModel Cart { get; set; } = new BasketModel();
 
+        //get the basket when the page is opening
         public async Task<IActionResult> OnGetAsync()
         {
-            Cart = await _cartRepository.GetCartByUserName("test");
+            var userName = "swn";
+            Cart = await _basketService.GetBasket(userName);
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostCheckOutAsync()
         {
-            Cart = await _cartRepository.GetCartByUserName("test");
+            var userName = "swn";
+            Cart = await _basketService.GetBasket(userName);
 
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            Order.UserName = "test";
+            Order.UserName = userName;
             Order.TotalPrice = Cart.TotalPrice;
 
-            await _orderRepository.CheckOut(Order);
-            await _cartRepository.ClearCart("test");
-            
+            //call basket microservice (checkoutorder api method) over ocelot api gateway, basket microservice will publish basketcheckoutevent to the rabbitmq using masstransit.
+            //ordering microservice is subscribed to this event and will consume checkoutorderevent from the rabbitmq using masstransit.
+            //after that, the order record will be saved in sql server and the cart will be removed.
+            await _basketService.CheckoutBasket(Order);
+
             return RedirectToPage("Confirmation", "OrderSubmitted");
-        }       
+        }
     }
 }
