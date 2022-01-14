@@ -30,6 +30,9 @@ namespace Shopping.Aggregator
 
             services.AddHttpClient<ICatalogService, CatalogService>(c =>
                 c.BaseAddress = new Uri(Configuration["ApiSettings:CatalogUrl"]));
+              //.AddHttpMessageHandler<LoggingDelegatingHandler>()
+              //.AddPolicyHandler(GetRetryPolicy())
+              //.AddPolicyHandler(GetCircuitBreakerPolicy());
 
 
             services.AddHttpClient<IBasketService, BasketService>(c =>

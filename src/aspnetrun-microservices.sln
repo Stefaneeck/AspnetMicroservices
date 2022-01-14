@@ -45,6 +45,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{C981
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspnetRunBasics", "WebApps\AspnetRunBasics\AspnetRunBasics.csproj", "{92E515AD-F8B1-4B4B-A52C-BBC3C5F26A08}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEndWithOwnDbExample", "FrontEndWithOwnDbExample", "{10DFF028-797F-474A-8730-2718D2EC675F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspnetRunBasics", "WebApps\FrontEndWithOwnDbExample\AspnetRunBasics\AspnetRunBasics.csproj", "{D19489A8-BFEF-4573-A96D-71A0EE3C950B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +107,10 @@ Global
 		{92E515AD-F8B1-4B4B-A52C-BBC3C5F26A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92E515AD-F8B1-4B4B-A52C-BBC3C5F26A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92E515AD-F8B1-4B4B-A52C-BBC3C5F26A08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D19489A8-BFEF-4573-A96D-71A0EE3C950B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D19489A8-BFEF-4573-A96D-71A0EE3C950B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D19489A8-BFEF-4573-A96D-71A0EE3C950B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D19489A8-BFEF-4573-A96D-71A0EE3C950B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +132,8 @@ Global
 		{C50A4F43-226A-4B9F-A215-51CA6F569B87} = {07EB3093-BA73-48E8-9D33-A4E81D76ED71}
 		{BE9177EF-5FFC-40C9-81B1-8B6438FDCD19} = {07EB3093-BA73-48E8-9D33-A4E81D76ED71}
 		{92E515AD-F8B1-4B4B-A52C-BBC3C5F26A08} = {C981468A-21DB-4AE5-8B55-2130E3B603F8}
+		{10DFF028-797F-474A-8730-2718D2EC675F} = {C981468A-21DB-4AE5-8B55-2130E3B603F8}
+		{D19489A8-BFEF-4573-A96D-71A0EE3C950B} = {10DFF028-797F-474A-8730-2718D2EC675F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5D88F9D-DFB4-42BC-944F-47FA2F74A811}
