@@ -154,3 +154,19 @@ services:
     ports:
       - "8010:80"
 
+
+  shopping.aggregator:
+    container_name: shopping.aggregator
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        #containername instead of localhost (ports numbers are not required here since we are not working in the local environment but in the docker environment (docker recognizes the container names))
+        - "ApiSettings:CatalogUrl=http://catalog.api"
+        - "ApiSettings:BasketUrl=http://basket.api"
+        - "ApiSettings:OrderingUrl=http://ordering.api"
+    depends_on:
+        - catalog.api
+        - basket.api
+        - ordering.api
+    ports:
+        - "8005:80"
+
