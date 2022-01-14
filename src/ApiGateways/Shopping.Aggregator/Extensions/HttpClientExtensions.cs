@@ -17,8 +17,10 @@ namespace Shopping.Aggregator.Extensions
             if (!response.IsSuccessStatusCode)
                 throw new ApplicationException($"Something went wrong calling the API: {response.ReasonPhrase}");
 
+            //convert json http response to string
             var dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+            //map the json string to the specific generic type (for instance catalogmodel)
             return JsonSerializer.Deserialize<T>(dataAsString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }

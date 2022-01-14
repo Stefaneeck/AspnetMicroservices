@@ -1,6 +1,5 @@
 ﻿using Shopping.Aggregator.Extensions;
 using Shopping.Aggregator.Models;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -12,7 +11,7 @@ namespace Shopping.Aggregator.Services
 
         public BasketService(HttpClient client)
         {
-            _client = client ?? throw new ArgumentNullException(nameof(client));
+            _client = client;
         }
 
         public async Task<BasketModel> GetBasket(string userName)

@@ -1,6 +1,5 @@
 ﻿using Shopping.Aggregator.Extensions;
 using Shopping.Aggregator.Models;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,7 +12,7 @@ namespace Shopping.Aggregator.Services
 
         public OrderService(HttpClient client)
         {
-            _client = client ?? throw new ArgumentNullException(nameof(client));
+            _client = client;
         }
 
         public async Task<IEnumerable<OrderResponseModel>> GetOrdersByUserName(string userName)

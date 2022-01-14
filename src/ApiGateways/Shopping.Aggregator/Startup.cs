@@ -27,6 +27,7 @@ namespace Shopping.Aggregator
         public void ConfigureServices(IServiceCollection services)
         {
             //Registering the client services this way, makes the DefaultClientFactory create a standard HttpClient for each service.
+
             services.AddHttpClient<ICatalogService, CatalogService>(c =>
                 c.BaseAddress = new Uri(Configuration["ApiSettings:CatalogUrl"]));
 
