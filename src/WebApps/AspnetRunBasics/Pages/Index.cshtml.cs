@@ -20,6 +20,7 @@ namespace AspnetRunBasics.Pages
 
         public IEnumerable<CatalogModel> ProductList { get; set; } = new List<CatalogModel>();
 
+        //when a request is made for the page
         public async Task<IActionResult> OnGetAsync()
         {
             ProductList = await _catalogService.GetCatalog();
