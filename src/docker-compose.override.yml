@@ -141,7 +141,7 @@ services:
   ocelotapigw:
     container_name: ocelotapigw
     environment:
-    #this is why we set this environment variable to local first (in the non docker environment)
+    #we set this environment variable to local first (in the non docker environment)
     #that way, ocelot read our ocelot.Local.json file for our local environment
     #and we can use the ocelot.Local.json file for our dockered environment
     #we only have to set the environment variable to Development then, and ocelot will use the ocelot.Development.json file
@@ -170,3 +170,19 @@ services:
     ports:
         - "8005:80"
 
+
+  aspnetrunbasics:
+    container_name: aspnetrunbasics
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        #containername here in docker environment instead of localhost:port
+        - "ApiSettings:GatewayAddress=http://ocelotapigw"
+    depends_on:
+    #because we consume all the microservices, and via ocelot, we need all these here
+        - ocelotapigw
+        - catalog.api
+        - basket.api
+        - discount.api
+        - ordering.api
+    ports:
+        - "8006:80"
