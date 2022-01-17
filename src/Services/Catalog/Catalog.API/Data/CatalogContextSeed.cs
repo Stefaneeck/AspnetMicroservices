@@ -11,8 +11,7 @@ namespace Catalog.API.Data
     {
         public static void SeedData(IMongoCollection<Product> productCollection)
         {
-            //check if there is an existing product collection in db
-            //if not, we can seed this collection into mongodb
+            //check if there is an existing product collection in db. If not, we can seed this collection into mongodb
             //the methods that can be used on a mongo collections are named exactly the same as the mongo cli commands
             bool existProduct = productCollection.Find(p => true).Any();
 

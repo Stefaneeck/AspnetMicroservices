@@ -11,7 +11,6 @@ namespace Catalog.API.Data
     //gets data from the mongodb
     public class CatalogContext : ICatalogContext
     {
-        //aspnetcore built-in DI (used for configuration)
         public CatalogContext(IConfiguration configuration)
         {
             //gets connectionstring value from appsettings.json

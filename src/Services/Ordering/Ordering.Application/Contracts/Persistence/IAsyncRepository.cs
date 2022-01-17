@@ -12,7 +12,7 @@ namespace Ordering.Application.Contracts.Persistence
     //generic repository pattern
     public interface IAsyncRepository<T> where T : EntityBase
     {
-        //Getting and reading objects from the db
+        //getting and reading objects from the db
         Task<IReadOnlyList<T>> GetAllAsync();
         Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
         Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null,

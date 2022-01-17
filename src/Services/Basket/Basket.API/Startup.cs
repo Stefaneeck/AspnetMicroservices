@@ -33,29 +33,20 @@ namespace Basket.API
 
             //general configuration
             services.AddScoped<IBasketRepository, BasketRepository>();
-            //Search automapper classes in the given assembly
-            //services.AddAutoMapper(typeof(ProfileTypeFromAssembly1), typeof(ProfileTypeFromAssembly2));
             services.AddAutoMapper(typeof(Startup));
 
             //grpc configuration
-            //register the generated grpc client (we need the address of the discount grpc), this is the address of the using when making the grpc calls
-            //the address has been set in the appsettings.json file rather than entering as string here
             services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options => options.Address = new Uri(Configuration["GrpcSettings:DiscountUrl"]));
 
             //register for DI
             services.AddScoped<DiscountGrpcService>();
 
             //MassTransit configuration, configure masstransit to connect with rabbitmq
-            //config is an action object
             services.AddMassTransit(config => {
-                //UsingRabbitMq needs an action object as well
                 //this code means that MassTransit will use rabbitmq as message broker system
 
                 //rabbitmq configuration
                 config.UsingRabbitMq((ctx, cfg) => {
-                    //docker evironment is exposing this port into local, rabbitmq is running on local
-                    //for details check rabbitmq.com/dotnet-api.guide.html
-                    //from appsettings.json
                     cfg.Host(Configuration["EventBusSettings:HostAddress"]);
                 });
             });

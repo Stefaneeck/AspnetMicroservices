@@ -14,7 +14,6 @@ namespace Ordering.API.Extensions
                                             Action<TContext, IServiceProvider> seeder,
                                             int? retry = 0) where TContext : DbContext
         {
-            //Value because nullable type
             int retryForAvailability = retry.Value;
 
             //This will provide the logger and the context object
@@ -41,11 +40,6 @@ namespace Ordering.API.Extensions
                      */
                     InvokeSeeder(seeder, context, services);
 
-                    //if the sql server container is not created on run docker compose this
-                    //migration can't fail for network related exception. The retry options for DbContext only 
-                    //apply to transient exceptions                    
-                    //retry.Execute(() => InvokeSeeder(seeder, context, services));
-
                     logger.LogInformation("Migrated database with context {DbContextName}", typeof(TContext).Name);
 
                 }
@@ -64,7 +58,7 @@ namespace Ordering.API.Extensions
                 }
 
             }
-            //needs to be returned because it's an extension method (chaining)
+
             return host;
         }
 
@@ -74,8 +68,7 @@ namespace Ordering.API.Extensions
         {
             //will create the db if needed and run the migrations
             context.Database.Migrate();
-            //seed db
-            //Action type (method as parameter), we dont know the generic type in this extension class
+            //seed db, Action type (method as parameter), we dont know the generic type in this extension class
             seeder(context, services);
         }
     }

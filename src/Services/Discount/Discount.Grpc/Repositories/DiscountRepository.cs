@@ -17,15 +17,6 @@ namespace Discount.Grpc.Repositories
 
         public async Task<Coupon> GetDiscount(string productName)
         {
-            /*Beginning with C# 8.0, you can use the following alternative syntax for the using statement that doesn't require braces.
-            using statements without explicit curly braces apply only to the following statement.
-
-            using (Idisp1)
-                 //use it
-
-            //it's disposed
-
-            */
             //gets the value from appsettings.json
             using var connection = new NpgsqlConnection(_configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
 

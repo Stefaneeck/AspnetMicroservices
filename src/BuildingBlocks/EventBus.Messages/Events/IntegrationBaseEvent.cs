@@ -2,7 +2,7 @@
 
 namespace EventBus.Message.Events
 {
-    //The base eventclass, every rabbitmq message event will inherit from this class
+    //This is the base eventclass, every rabbitmq message event will inherit from this class
     public class IntegrationBaseEvent
     {
         public IntegrationBaseEvent()

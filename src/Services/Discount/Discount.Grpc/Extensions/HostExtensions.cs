@@ -10,14 +10,6 @@ namespace Discount.Grpc.Extensions
     {
         public static IHost MigrateDatabase<TContext>(this IHost host, int? retry = 0)
         {
-            /* 
-             retry parameter because  we are going to retry the migrate operation 
-            (in case the discount application is started on the docker but at that time maybe the postgres db container will not be ready yet).
-            we retry when we cant reach the postgresql db, for microservices resilience.
-            */
-             
-
-            //.value for nullable objects
             int retryForAvailability = retry.Value;
 
             using (var scope = host.Services.CreateScope())

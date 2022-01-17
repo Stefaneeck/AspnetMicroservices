@@ -12,11 +12,10 @@ namespace Ordering.Application
         {
             //services used in application layer
 
-            //checks if there is any class that inherits from Profile, and executes the profiles when running the application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            //checks if there is any class that inherits from the AbstractValidator
+
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            //checks if there is any class that inherits from IRequest or IRequestHandler
+
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             //define pipeline behaviours

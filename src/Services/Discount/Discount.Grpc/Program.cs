@@ -19,10 +19,6 @@ namespace Discount.Grpc
             host.MigrateDatabase<Program>();
             //start the application
             host.Run();
-
-            /* above code replaces and extends this code
-            CreateHostBuilder(args).Build().Run();
-            */
         }
 
         // Additional configuration is required to successfully run gRPC on macOS.

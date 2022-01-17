@@ -19,10 +19,11 @@ namespace Ordering.API.Controllers
          * We create mediator cqrs objects and send these requests to the mediator.
          * Behind this action, mediator creates a pipeline for the request and triggers the handler method
          * no infrastructure dependencies, presentation layer is only responsible for exposing API
+         * 
+         * for all operations only 1 object to inject
+           mediator is not referenced directly in our project file, but we have a project reference to Ordering.Application, which has the MediatR reference.
         */
 
-        //for all operations only 1 object to inject
-        //mediator is not referenced directly in our project file, but we have a project reference to Ordering.Application, which has the MediatR reference.
         private readonly IMediator _mediator;
 
         public OrderController(IMediator mediator)
@@ -54,13 +55,6 @@ namespace Ordering.API.Controllers
             return Ok(result);
         }
 
-        /* swagger documentation:
-         * 
-         * An API specification needs to specify the responses for all API operations. Each operation must have at least one response defined, usually a successful response. A response is defined by its HTTP status code and the data returned in the response body and/or headers.
-         * Sometimes, an operation can return multiple errors with different HTTP status codes, but all of them have the same response structure.
-         * You can use the default response to describe these errors collectively, not individually. “Default” means this response is used for all HTTP codes that are not covered individually for this operation.
-         * 
-         */
         [HttpPut(Name = "UpdateOrder")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         //a code path in UpdateOrderCommandHandler throws a NotFoundException

@@ -25,9 +25,11 @@ namespace Ordering.API
         public void ConfigureServices(IServiceCollection services)
         {
             //extension methods
+
             //it's good practice to handle every dependency in their own layer
             //this extension method is defined in the application layer
             services.AddApplicationServices();
+
             //this extension method is defined in the infrastructure layer
             services.AddInfrastructureServices(Configuration);
 

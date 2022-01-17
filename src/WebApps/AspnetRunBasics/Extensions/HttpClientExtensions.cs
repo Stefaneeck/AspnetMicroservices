@@ -9,11 +9,7 @@ namespace AspnetRunBasics.Extensions
     public static class HttpClientExtensions
     {
         //these methods perform the serializing operations and call the postasync method
-        //if we don't write these extensions, we have to write these lines for every request:
-        /*var dataAsString = JsonSerializer.Serialize(data);
-          var content = new StringContent(dataAsString);
-          content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-         */
+        //if we don't write these extensions, we have to write repetitive lines for every request.
         public static async Task<T> ReadContentAs<T>(this HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)

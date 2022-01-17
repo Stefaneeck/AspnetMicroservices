@@ -38,19 +38,6 @@ namespace Discount.API.Controllers
             //we can see all details after inserting the coupon by working this way
             //https://stackoverflow.com/questions/25045604/can-anyone-explain-createdatroute-to-me/25110700
 
-            /*
-             *
-            When you use CreatedAtRoute, the first argument is the route name of the GET to the resource.
-            The trick that is not so obvious is that, even with the correct method name specified, you must thus use the Name param on the HttpGet attribute for it to work.
-            So if the return in your POST is this:
-            return CreatedAtRoute("Get", routeValues: new { id = model.Id }, value: model);
-            Then your Get method attribute should look like this even if your method is named Get:
-            [HttpGet("{id}", Name = "Get")]
-            Calls to your Post method will not only return the new object (normally as JSON), it will set the Location header on the response to the URI that would Get that resource.
-            So if you POST an order item for instance, you might return a route like 'api/order/11'
-
-            NOTE the field names in the routeValues field names need to match the binding names in the target route, i.e. there needs to be a field named id to match the {id} in HttpGet("{id}"
-             */
             return CreatedAtRoute("GetDiscount", new { productName = coupon.ProductName }, coupon);
         }
 

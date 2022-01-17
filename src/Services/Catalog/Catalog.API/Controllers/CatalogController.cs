@@ -90,7 +90,6 @@ namespace Catalog.API.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         //IActionResult if you dont want to return any specific type of response
-
         //We can use IActionResult here instead of ActionResult because we're not returning a specific type (ex. ActionResult<Product>).
         public async Task<IActionResult> UpdateProduct([FromBody] Product product)
         {

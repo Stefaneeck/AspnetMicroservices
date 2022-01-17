@@ -2,7 +2,8 @@ version: '3.4'
 
 services:
   catalogdb:
-    #mongo image is attached to catalogdb container, which images are attached to which container names can be specified in the docker-compose.yml file
+    #mongo image is attached to catalogdb container.
+    #which images are attached to which container names can be specified in the docker-compose.yml file
     container_name: catalogdb
     #if there is a problem when running the container, it will restart.
     restart: always
@@ -70,7 +71,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
 
-  #aspnetcore web api image
   catalog.api:
     container_name: catalog.api
     #important because when we are running in the docker environment and we need to override the application settings
@@ -79,7 +79,7 @@ services:
       #not using localhost but catalogdb instead, because when we are running in the docker env, docker only knows the container names.
       - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
     depends_on:
-    #depends_on express dependency between services
+    #depends_on express dependencies between services
     #docker-compose up will start services in dependency order. In the following example, catalogdb will be started before catalog.api.
       - catalogdb
     ports:
@@ -145,8 +145,7 @@ services:
     environment:
     #we set this environment variable to local first (in the non docker environment)
     #that way, ocelot read our ocelot.Local.json file for our local environment
-    #and we can use the ocelot.Local.json file for our dockered environment
-    #we only have to set the environment variable to Development then, and ocelot will use the ocelot.Development.json file
+    #and we can use the ocelot.Development.json file for our dockered environment
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
         - catalog.api
@@ -161,7 +160,7 @@ services:
     container_name: shopping.aggregator
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        #containername instead of localhost (ports numbers are not required here since we are not working in the local environment but in the docker environment (docker recognizes the container names))
+        #containername instead of localhost
         - "ApiSettings:CatalogUrl=http://catalog.api"
         - "ApiSettings:BasketUrl=http://basket.api"
         - "ApiSettings:OrderingUrl=http://ordering.api"

@@ -8,6 +8,7 @@ namespace Shopping.Aggregator.Services
 {
     public class CatalogService : ICatalogService
     {
+        #region commentinfo
         //this http client comes from the HttpClientFactory
         //a standard http client for CatalogService has been created by using our configuration in ConfigureServices
         //this includes the base address (it is set in ConfigureServices)
@@ -17,6 +18,7 @@ namespace Shopping.Aggregator.Services
         //c.BaseAddress = new Uri(Configuration["ApiSettings:CatalogUrl"]));
         //the value of CatalogUrl in appsettings is http://localhost:8000
         //The _client in this class will already have a base address, we can send a request by entering "/api/v1/Catalog" for instance.
+        #endregion
 
         private readonly HttpClient _client;
 

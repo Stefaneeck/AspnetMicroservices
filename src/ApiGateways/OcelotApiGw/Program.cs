@@ -21,9 +21,6 @@ namespace OcelotApiGw
                 //look for the ocelot json file when the application starts
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    //basic way
-                    //config.AddJsonFile("ocelot.json");
-
                     //this will choose our ocelot.Development or ocelot.Local depending on which value is set for the ASPNETCORE_ENVIRONMENT environment variable, in the project properties.
                     //HostingEvironment.EnvironmentName indicates in which environment you are working (development, local,..).
                     config.AddJsonFile($"ocelot.{hostingContext.HostingEnvironment.EnvironmentName}.json", true, true);

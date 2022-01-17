@@ -12,8 +12,8 @@ namespace Discount.API.Extensions
         {
             /* 
              retry parameter because  we are going to retry the migrate operation 
-            (in case the discount application is started on the docker but at that time maybe the postgres db container will not be ready yet).
-            we retry when we cant reach the postgresql db, for microservices resilience.
+             (in case the discount application is started on the docker but at that time maybe the postgres db container will not be ready yet).
+             we retry when we cant reach the postgresql db, for microservices resilience.
             */
              
 
@@ -22,7 +22,7 @@ namespace Discount.API.Extensions
 
             using (var scope = host.Services.CreateScope())
             {
-                //get some of the services of asp .net core DI in this scope
+                //get some of the services of asp.net core DI in this scope
                 var services = scope.ServiceProvider;
                 var configuration = services.GetRequiredService<IConfiguration>();
                 var logger = services.GetRequiredService<ILogger<TContext>>();

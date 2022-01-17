@@ -20,10 +20,6 @@ namespace Discount.API
             host.MigrateDatabase<Program>();
             //start the application
             host.Run();
-
-            /* above code replaces and extends this code
-            CreateHostBuilder(args).Build().Run();
-            */
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

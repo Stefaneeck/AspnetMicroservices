@@ -29,15 +29,10 @@ namespace Basket.API.Controllers
 
         [HttpGet("{userName}", Name = "GetBasket")]
         [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
-        /*
-         * If you notice the prebuild project of the .net core web api, not all functions return ActionResult or IActionResult.
-         * So yes, you can totally return something like CustomerDto. This way you can return an object as json, with the status code 200.
-         * However let's say your action is taking in some input and you are not always sure if there will be a valid output. 
-         * In this case you will want to return status code 200 only if successful, 400 (badRequest) if the user sent invalid data or any other status code. 
-         * This is the standard way of handling http requests.
+        
 
-         * So, by using IActionResult you can either return a CustomerDto object by using return Json(customer) or return Ok(customer), or you can return use BadRequest(myErrors) when you run into errors.
-         * */
+         //by using IActionResult you can either return a CustomerDto object by using return Json(customer) or return Ok(customer), or you can return use BadRequest(myErrors) when you run into errors.
+
         public async Task<ActionResult<ShoppingCart>> GetBasket(string userName)
         {
             var basket = await _repository.GetBasket(userName);
@@ -46,12 +41,12 @@ namespace Basket.API.Controllers
             return Ok(basket ?? new ShoppingCart(userName));
         }
 
-        //We are expecting the entire shoppingcart object from the body
+        //We are expecting the entire shoppingcart object from the request body
         [HttpPost]
         [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ShoppingCart>> UpdateBasket([FromBody] ShoppingCart basket)
         {
-            //consume discount grpc method (from discount.grpc) basket api will be the client of the grpc in this case
+            //consume discount grpc method (from discount.grpc), basket api will be the client of the grpc in this case
             //it's not best practice do directly communicate with the generated classes. We create a new class to encapsulate.
             foreach(var item in basket.Items)
             {
@@ -89,7 +84,6 @@ namespace Basket.API.Controllers
                 return BadRequest();
             }
             //create basketcheckoutevent, set totalprice on basketCheckout eventMessage
-            //not using a basketcheckoutevent in the frombody (would save one mapping), but this event belongs to rabbitmq operations and not api methods.
             //send basketcheckoutevent to rabbitmq
             var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
 

@@ -14,8 +14,7 @@ service DiscountProtoService{
 }
 
 message GetDiscountRequest{
-//definition of type
-//this is +- like a c# class
+//definition of type, this is +- like a c# class
 //numbers like '= 1' is for order
 
 	string productName = 1;
