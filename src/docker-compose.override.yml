@@ -79,6 +79,8 @@ services:
       #not using localhost but catalogdb instead, because when we are running in the docker env, docker only knows the container names.
       - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
     depends_on:
+    #depends_on express dependency between services
+    #docker-compose up will start services in dependency order. In the following example, catalogdb will be started before catalog.api.
       - catalogdb
     ports:
     #forwarding local computers port 8000

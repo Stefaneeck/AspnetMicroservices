@@ -9,6 +9,8 @@ namespace Basket.API.Entities
     {
         public string UserName { get; set; }
 
+        //= new List<ShoppingCartItem>() will be called when an instance of ShoppingCart is constructed (instantiating the list is implicitely added to the constructor)
+        //it's called auto property initializers
         public List<ShoppingCartItem> Items { get; set; } = new List<ShoppingCartItem>();
 
         public decimal TotalPrice

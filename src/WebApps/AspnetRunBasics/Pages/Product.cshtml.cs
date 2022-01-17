@@ -23,9 +23,9 @@ namespace AspnetRunBasics
         public IEnumerable<string> CategoryList { get; set; } = new List<string>();
         public IEnumerable<CatalogModel> ProductList { get; set; } = new List<CatalogModel>();
 
-
-        [BindProperty(SupportsGet = true)]
+        //https://www.learnrazorpages.com/razor-pages/model-binding
         //we filter products according to the selected category
+        [BindProperty(SupportsGet = true)]
         public string SelectedCategory { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string categoryName)
